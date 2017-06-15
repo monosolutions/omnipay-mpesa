@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/mpesa",
+    "name": "monosolutions/omnipay-mpesa",
     "type": "library",
     "description": "Mpesa driver for the Omnipay payment processing library",
     "keywords": [

@@ -55,8 +55,10 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
-    protected $state;
-    protected $endpoint = 'https://www.enetonlinesolutions.co.ke/portal/clients/modules/addons/kenpesapb/api.php';
+    protected $endpoint = 'https://omnipay.ujiajiri.com/v1/';
+    protected $test_endpoint = 'https://demo2.enetonlinesolutions.co.ke/portal/clients/modules/addons/kenpesapb/api.php';
+
+    private $success = false;
 
     public function getName()
     {
@@ -68,10 +70,20 @@ class Gateway extends AbstractGateway
         return array();
     }
 
-    public function getUrl( $data )
-    {
-        return $this->endpoint.'?'.http_build_query( $data );
+      /**
+     * Create an authorize request.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Mpesa\Message\AuthorizeRequest
+     */
+    public function authorize(array $parameters = array()) {
+        return $this->createRequest('\Omnipay\Mpesa\Message\AuthorizeRequest', $parameters);
     }
+
+    public function getUrl($data = array()) {
+        return $this->endpoint;
+    }
+
 
     /**
      * Create a purchase request.
@@ -83,15 +95,35 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $data = array())
     {
-        $httpRequest = $this->httpClient->createRequest( 'GET', $this->getUrl( $data ));
-        $httpRequest->send();
-        $response = $httpRequest->send();
-        $this->state = true;
-        return $response->json();
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $this->getUrl());
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        
+        $_data = json_decode($response);
+
+        if (isset($_data->success)) {
+            $this->success = $_data->success;
+        }
+
+
+
+
+        return $_data;
     }
 
-    public function isSuccessful()
-    {
-        return $this->state;
+    public function isSuccessful() {
+        return $this->success;
     }
 }

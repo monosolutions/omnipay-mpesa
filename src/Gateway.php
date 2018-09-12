@@ -55,7 +55,7 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
-    protected $endpoint = 'https://omnipay.ujiajiri.com/v1/';
+    protected $endpoint = 'https://omnipay.eacdirectory.com/v1/';
     protected $test_endpoint = 'https://demo2.enetonlinesolutions.co.ke/portal/clients/modules/addons/kenpesapb/api.php';
 
     private $success = false;

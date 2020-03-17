@@ -76,12 +76,12 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\Mpesa\Message\AuthorizeRequest
      */
-    public function authorize(array $parameters = array()) 
+    public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Mpesa\Message\AuthorizeRequest', $parameters);
     }
 
-    public function getUrl($data = array()) 
+    public function getUrl($data = array())
     {
         return $this->endpoint;
     }
@@ -125,7 +125,7 @@ class Gateway extends AbstractGateway
         return $_data;
     }
 
-    public function isSuccessful() 
+    public function isSuccessful()
     {
         return $this->success;
     }

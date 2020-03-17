@@ -55,8 +55,8 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
-    protected $endpoint = 'https://omnipay.eacdirectory.com/v1/';
-    protected $test_endpoint = 'https://demo2.enetonlinesolutions.co.ke/portal/clients/modules/addons/kenpesapb/api.php';
+    protected $endpoint = 'https://omnipay.eacdirectory.net/v1/';
+    protected $test_endpoint='https://demo2.enetonlinesolutions.co.ke/portal/clients/modules/addons/kenpesapb/api.php';
 
     private $success = false;
 
@@ -76,11 +76,13 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\Mpesa\Message\AuthorizeRequest
      */
-    public function authorize(array $parameters = array()) {
+    public function authorize(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\Mpesa\Message\AuthorizeRequest', $parameters);
     }
 
-    public function getUrl($data = array()) {
+    public function getUrl($data = array())
+    {
         return $this->endpoint;
     }
 
@@ -123,7 +125,8 @@ class Gateway extends AbstractGateway
         return $_data;
     }
 
-    public function isSuccessful() {
+    public function isSuccessful()
+    {
         return $this->success;
     }
 }
